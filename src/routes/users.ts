@@ -3,6 +3,8 @@ import { supabase } from "../service/supabase";
 
 const router = Router();
 
+// testing testing
+
 // get all users
 router.get("/", async (req, res) => {
   try {
