@@ -1,5 +1,7 @@
 import express, { Request, Response } from "express";
 import userRoutes from "./routes/users";
+import authRoutes from "./auth/auth";
+import noteRoutes from "./routes/notes";
 import cors from "cors";
 import dotenv from "dotenv";
 
@@ -19,13 +21,17 @@ app.use(
 
 // Routes
 app.use("/api/users", userRoutes);
+app.use("/auth", authRoutes);
+app.use("/api/notes", noteRoutes);
 
 // Set the network port
 const port = process.env.PORT || 3000;
 
 // Define the root path with a greeting message
 app.get("/", (req: Request, res: Response) => {
-  res.json({ message: "Welcome to the Express + TypeScript Server! haloha" });
+  res.json({
+    message: "Welcome to the Express + TypeScript Server! haloha test test",
+  });
 });
 
 // Start the Express server
