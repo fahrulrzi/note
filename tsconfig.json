@@ -3,12 +3,16 @@
     "target": "es6",
     "module": "commonjs",
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "./",
     "strict": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "include": [
+    "./api/*.ts",
+    "./src/**/*.ts"
+  ]
 }

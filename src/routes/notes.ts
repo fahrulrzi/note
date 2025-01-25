@@ -3,7 +3,7 @@ import { supabase } from "../service/supabase";
 import authMiddleware from "../middleware/authMiddleware";
 // import pool from "../service/pool";
 import { CustomRequest } from "../types/token";
-import { stat } from "fs";
+// import { stat } from "fs";
 
 const router = Router();
 
