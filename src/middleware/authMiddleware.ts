@@ -29,7 +29,6 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
     customRequest.user = decoded as User;
 
-    // console.log("hasil request user", customRequest);
 
   } catch (error) {
     res.status(401).json({ error: "Invalid token" });

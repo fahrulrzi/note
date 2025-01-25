@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { supabase } from "../service/supabase";
 import authMiddleware from "../middleware/authMiddleware";
 // import pool from "../service/pool";
@@ -60,7 +60,7 @@ router.get("/", authMiddleware, async (req: Request, res: Response) => {
     //  ? mengambil data dari folder
     const { data: folders, error: folderError } = await supabase
       .from("folders")
-      .select("id, name, notes (id, title, content, created_at)")
+      .select("id, folder_name:name, notes (id, title, content, created_at)")
       .eq("user_id", customRequest.user.id);
 
     if (folderError) throw folderError;
@@ -88,45 +88,51 @@ router.get("/", authMiddleware, async (req: Request, res: Response) => {
   }
 });
 
-router.get("/:id", authMiddleware, async (req: Request, res: Response) => {
-  const customRequest = req as CustomRequest;
+router.get(
+  "/:id",
+  authMiddleware,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const customRequest = req as CustomRequest;
 
-  const { id } = req.params;
-  const { data, error } = await supabase
-    .from("notes")
-    .select("id, title, content, is_pinned, folders(id,name), created_at")
-    .eq("user_id", customRequest.user.id)
-    .eq("id", id);
+    const { id } = req.params;
 
-  if (error) {
-    res.status(500).json({
-      status: "error",
-      message: "Internal server error",
-    });
-    return;
+    if (id === "shared") {
+      return next();
+    }
+    const { data, error } = await supabase
+      .from("notes")
+      .select("id, title, content, is_pinned, folders(id,name), created_at")
+      .eq("user_id", customRequest.user.id)
+      .eq("id", id);
+
+    if (error) {
+      res.status(500).json({
+        status: "error",
+        message: "Internal server error",
+      });
+      return;
+    }
+
+    if (data.length === 0) {
+      res.status(404).json({
+        status: "error",
+        message: "Note not found",
+      });
+    } else {
+      res.json({
+        status: "success",
+        message: "Data fetched successfully",
+        data: data[0],
+      });
+    }
   }
-
-  if (data.length === 0) {
-    res.status(404).json({
-      status: "error",
-      message: "Note not found",
-    });
-  } else {
-    res.json({
-      status: "success",
-      message: "Data fetched successfully",
-      data: data[0],
-    });
-  }
-});
+);
 
 router.post("/", authMiddleware, async (req: Request, res: Response) => {
   const customRequest = req as CustomRequest;
 
   try {
     const { title, content, folder_id, is_pinned } = req.body;
-
-    console.log(req.body);
 
     const { data, error } = await supabase
       .from("notes")
@@ -160,7 +166,6 @@ router.post("/", authMiddleware, async (req: Request, res: Response) => {
   }
 });
 
-//! put normal tapi ada error ketika beda user
 router.put("/:id", authMiddleware, async (req: Request, res: Response) => {
   const customRequest = req as CustomRequest;
 
@@ -192,8 +197,8 @@ router.put("/:id", authMiddleware, async (req: Request, res: Response) => {
   const { data, error } = await supabase
     .from("notes")
     .update({
-      title,
-      content,
+      title: title || notes[0].title,
+      content: content || notes[0].content,
       is_pinned: is_pinned || notes[0].is_pinned,
       folder_id: folder_id || notes[0].folder_id,
       updated_at: new Date(),
@@ -216,5 +221,137 @@ router.put("/:id", authMiddleware, async (req: Request, res: Response) => {
     data: data[0],
   });
 });
+
+router.delete("/:id", authMiddleware, async (req: Request, res: Response) => {
+  const customRequest = req as CustomRequest;
+
+  const { id } = req.params;
+
+  const { data, error } = await supabase
+    .from("notes")
+    .delete()
+    .eq("user_id", customRequest.user.id)
+    .eq("id", id)
+    .select();
+
+  if (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
+    return;
+  }
+
+  res.json({
+    status: "success",
+    message: "Data deleted successfully",
+    data: data[0],
+  });
+});
+
+// ! shared
+router.post(
+  "/:id/share",
+  authMiddleware,
+  async (req: Request, res: Response) => {
+    const customRequest = req as CustomRequest;
+
+    const { id } = req.params;
+
+    const { email, permision_level } = req.body;
+
+    const { data, error } = await supabase
+      .from("shared_notes")
+      .insert({
+        note_id: id,
+        shared_by_user_id: customRequest.user.id,
+        shared_with_email: email,
+        permision_level: permision_level,
+      })
+      .select(
+        `
+        permision_level, 
+        shared_with_user:users!shared_notes_shared_with_email_fkey(id, name, email), 
+        note:notes(id, title, content)
+        `
+      );
+
+    if (error) {
+      res.status(500).json({
+        status: "error",
+        message: "Internal server error",
+      });
+
+      return;
+    }
+
+    res.json({
+      status: "success",
+      message: "Data shared successfully",
+      data: data[0],
+    });
+  }
+);
+
+router.get("/shared", authMiddleware, async (req: Request, res: Response) => {
+  const customRequest = req as CustomRequest;
+
+  const { data, error } = await supabase
+    .from("shared_notes")
+    .select(
+      `
+      permision_level, 
+      shared_with_user:users!shared_notes_shared_with_email_fkey(id, name, email), 
+      shared_by_user:users!shared_notes_shared_by_user_id_fkey(id, name, email),
+      note:notes(id, title, content)
+      `
+    )
+    .eq("shared_by_user_id", customRequest.user.id);
+
+  if (error) {
+    res.status(500).json({
+      status: "error",
+      message: error.message,
+    });
+    return;
+  }
+
+  res.json({
+    status: "success",
+    message: "Data fetched successfully",
+    data: data,
+  });
+});
+
+router.delete(
+  "/:id/share/:shared_id",
+  authMiddleware,
+  async (req: Request, res: Response) => {
+    const customRequest = req as CustomRequest;
+
+    const { id, shared_id } = req.params;
+
+    const { data, error } = await supabase
+      .from("shared_notes")
+      .delete()
+      .eq("shared_by_user_id", customRequest.user.id)
+      .eq("id", shared_id)
+      .select();
+
+    if (error) {
+      res.status(500).json({
+        status: "error",
+        message: "Internal server error",
+      });
+      return;
+    }
+
+    res.json({
+      status: "success",
+      message: "Data deleted successfully",
+      data: data[0],
+    });
+  }
+);
 
 export default router;
