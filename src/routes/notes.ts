@@ -60,7 +60,15 @@ router.get("/", authMiddleware, async (req: Request, res: Response) => {
     //  ? mengambil data dari folder
     const { data: folders, error: folderError } = await supabase
       .from("folders")
-      .select("id, folder_name:name, notes (id, title, content, is_pinned, created_at)")
+      .select(
+        `id, 
+        folder_name:name, 
+        notes (id, title, 
+        content, is_pinned, 
+        tags:note_tags(tags(id, name)), 
+        created_at
+        )`
+      )
       .eq("user_id", customRequest.user.id);
 
     if (folderError) throw folderError;
@@ -68,7 +76,14 @@ router.get("/", authMiddleware, async (req: Request, res: Response) => {
     // ? mengambil data dari notes
     const { data: standaloneNotes, error: notesError } = await supabase
       .from("notes")
-      .select("id, title, content, is_pinned, created_at")
+      .select(
+        `id, title, 
+        content, 
+        is_pinned, 
+        tags:note_tags(tags(id, name)), 
+        created_at
+        `
+      )
       .is("folder_id", null)
       .eq("user_id", customRequest.user.id);
 
@@ -101,7 +116,7 @@ router.get(
     }
     const { data, error } = await supabase
       .from("notes")
-      .select("id, title, content, is_pinned, folders(id,name), created_at")
+      .select("id, title, content, is_pinned, folders(id,name), tags:note_tags(tags(id, name)), created_at")
       .eq("user_id", customRequest.user.id)
       .eq("id", id);
 

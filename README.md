@@ -127,6 +127,20 @@
                     "notes": [
                         {
                             "id": 1,
+                            "tags": [
+                                {
+                                    "tags": {
+                                        "id": 2,
+                                        "name": "note"
+                                    }
+                                },
+                                {
+                                    "tags": {
+                                        "id": 3,
+                                        "name": "penting"
+                                    }
+                                }
+                            ],
                             "title": "note 1",
                             "content": "lorem ipsum",
                             "is_pinned": false,
@@ -153,7 +167,15 @@
                     "title": "note 3",
                     "content": "lorem ipsum",
                     "is_pinned": false,
-                    "created_at": "2025-01-24T09:16:45.769395+00:00"
+                    "created_at": "2025-01-24T09:16:45.769395+00:00",
+                    "tags": [
+                        {
+                            "tags": {
+                                "id": 1,
+                                "name": "note"
+                            }
+                        }
+                    ],
                 },
                 {
                     "id": 4,
@@ -190,7 +212,21 @@
                 "folders": {
                     "id": 1,
                     "name": "folder name "
-                }
+                },
+                "tags": [
+                    {
+                        "tags": {
+                            "id": 2,
+                            "name": "note"
+                        }
+                    },
+                    {
+                        "tags": {
+                            "id": 3,
+                            "name": "penting"
+                        }
+                    }
+                ]
             }
         }
         ```
