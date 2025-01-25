@@ -21,7 +21,10 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const token = customRequest.headers.authorization?.split(" ")[1];
 
     if (!token) {
-      res.status(401).json({ message: "Unauthorized" });
+      res.status(401).json({ 
+        status: "error",
+        message: "Unauthorized",
+       });
       return;
     }
 

@@ -38,7 +38,10 @@ router.post("/register", async (req: Request, res: Response): Promise<any> => {
       .single();
 
     if (existingUser) {
-      return res.status(400).json({ message: "Email already exists" });
+      return res.status(400).json({
+        status: "error",
+        message: "Email already exists",
+      });
     }
 
     if (existingError && existingError.code !== "PGRST116") {
@@ -108,12 +111,18 @@ router.post("/login", async (req: Request, res: Response): Promise<any> => {
       .limit(1);
 
     if (userError) {
-      return res.status(500).json({ message: userError.message });
+      return res.status(500).json({
+        status: "error",
+        message: "Internal server error",
+      });
     }
 
-    // cek user ditemukan atau tidak 
+    // cek user ditemukan atau tidak
     if (userData.length === 0) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({
+        status: "error",
+        message: "Invalid email or password",
+      });
     }
 
     const user = userData[0];
@@ -122,7 +131,10 @@ router.post("/login", async (req: Request, res: Response): Promise<any> => {
     const passwordMatch = await bcrypt.compare(password, user.password_hash);
 
     if (!passwordMatch) {
-      return res.status(401).json({ message: "Invalid email or password" });
+      return res.status(401).json({
+        status: "error",
+        message: "Invalid email or password",
+      });
     }
 
     // generate JWT token
@@ -138,8 +150,10 @@ router.post("/login", async (req: Request, res: Response): Promise<any> => {
       token,
     });
   } catch (error) {
-    console.error("Login error: ", error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
   }
 });
 

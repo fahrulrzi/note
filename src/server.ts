@@ -30,7 +30,7 @@ const port = process.env.PORT || 3000;
 // Define the root path with a greeting message
 app.get("/", (req: Request, res: Response) => {
   res.json({
-    message: "Welcome to the Express + TypeScript Server! haloha test test",
+    message: "Fahrul's API Notes",
   });
 });
 
