@@ -7,7 +7,7 @@
 ### Table of Contents
 - [Auth](#1-auth)
 - [Notes](#2-notes)
-- [Folders](#3-shared-notes)
+- [Shared Notes](#3-shared-notes)
 - [Tags](#4-tags)
 
 
