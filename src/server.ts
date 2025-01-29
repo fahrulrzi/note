@@ -2,8 +2,10 @@ import express, { Request, Response } from "express";
 import userRoutes from "./routes/users";
 import authRoutes from "./auth/auth";
 import noteRoutes from "./routes/notes";
+import tagRoutes from "./routes/tags";
 import cors from "cors";
 import dotenv from "dotenv";
+import authMiddleware from "./middleware/authMiddleware";
 
 // Create a new express application instance
 dotenv.config();
@@ -22,7 +24,8 @@ app.use(
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/auth", authRoutes);
-app.use("/api/notes", noteRoutes);
+app.use("/api/notes", authMiddleware, noteRoutes);
+app.use("/api/tags", authMiddleware, tagRoutes);
 
 // Set the network port
 const port = process.env.PORT || 3000;

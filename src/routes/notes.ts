@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response, Router } from "express";
 import { supabase } from "../service/supabase";
-import authMiddleware from "../middleware/authMiddleware";
 // import pool from "../service/pool";
 import { CustomRequest } from "../types/token";
 // import { stat } from "fs";
@@ -35,7 +34,7 @@ const router = Router();
 //   return Promise.all(folderPromise);
 // }
 
-router.get("/", authMiddleware, async (req: Request, res: Response) => {
+router.get("/", async (req: Request, res: Response) => {
   const customRequest = req as CustomRequest;
 
   try {
@@ -105,7 +104,7 @@ router.get("/", authMiddleware, async (req: Request, res: Response) => {
 
 router.get(
   "/:id",
-  authMiddleware,
+
   async (req: Request, res: Response, next: NextFunction) => {
     const customRequest = req as CustomRequest;
 
@@ -116,7 +115,9 @@ router.get(
     }
     const { data, error } = await supabase
       .from("notes")
-      .select("id, title, content, is_pinned, folders(id,name), tags:note_tags(tags(id, name)), created_at")
+      .select(
+        "id, title, content, is_pinned, folders(id,name), tags:note_tags(tags(id, name)), created_at"
+      )
       .eq("user_id", customRequest.user.id)
       .eq("id", id);
 
@@ -143,7 +144,7 @@ router.get(
   }
 );
 
-router.post("/", authMiddleware, async (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   const customRequest = req as CustomRequest;
 
   try {
@@ -181,7 +182,7 @@ router.post("/", authMiddleware, async (req: Request, res: Response) => {
   }
 });
 
-router.put("/:id", authMiddleware, async (req: Request, res: Response) => {
+router.put("/:id", async (req: Request, res: Response) => {
   const customRequest = req as CustomRequest;
 
   const { id } = req.params;
@@ -237,7 +238,7 @@ router.put("/:id", authMiddleware, async (req: Request, res: Response) => {
   });
 });
 
-router.delete("/:id", authMiddleware, async (req: Request, res: Response) => {
+router.delete("/:id", async (req: Request, res: Response) => {
   const customRequest = req as CustomRequest;
 
   const { id } = req.params;
@@ -289,7 +290,7 @@ router.delete("/:id", authMiddleware, async (req: Request, res: Response) => {
 // ! shared
 router.post(
   "/:id/share",
-  authMiddleware,
+
   async (req: Request, res: Response) => {
     const customRequest = req as CustomRequest;
 
@@ -330,7 +331,7 @@ router.post(
   }
 );
 
-router.get("/shared", authMiddleware, async (req: Request, res: Response) => {
+router.get("/shared", async (req: Request, res: Response) => {
   const customRequest = req as CustomRequest;
 
   const { data, error } = await supabase
@@ -360,9 +361,92 @@ router.get("/shared", authMiddleware, async (req: Request, res: Response) => {
   });
 });
 
+router.put("/share/:id", async (req: Request, res: Response) => {
+  const customRequest = req as CustomRequest;
+
+  const { shared_id} = req.params;
+  const { title, content } = req.body;
+
+  const { data: notes, error: notesError } = await supabase
+    .from("shared_notes")
+    .select("shared_by_user_id, note_id, shared_with_email, permision_level")
+    .eq("id", shared_id);
+
+  if (notesError) {
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
+    return;
+  }
+
+  if (notes[0].permision_level !== "edit") {
+    res.status(400).json({
+      status: "error",
+      message: "You don't have permission to edit this note",
+    });
+    return;
+  }
+
+  if (customRequest.user.email !== notes[0].shared_with_email) {
+    res.status(400).json({
+      status: "error",
+      message: "Not share with you",
+    });
+    return;
+  }
+
+  const { data: note, error: noteError } = await supabase
+    .from("notes")
+    .select("*")
+    .eq("user_id", notes[0].shared_by_user_id)
+    .eq("id", notes[0].note_id);
+
+  if (noteError) {
+    res.status(500).json({
+      status: "error",  
+      message: "Internal server error",
+    });
+    return;
+  }
+
+  if (note.length === 0) {
+    res.status(400).json({
+      status: "error",
+      message: "Note not found",
+    });
+    return;
+  }
+
+  const { data, error } = await supabase
+    .from("notes")
+    .update({
+      title: title || note[0].title,
+      content : content || note[0].content,
+      updated_at: new Date(),
+    })
+    .eq("id", notes[0].note_id)
+    .eq("user_id", notes[0].shared_by_user_id)
+    .select("title, content");
+
+  if (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Internal server error",
+    });
+    return;
+  }
+
+  res.json({
+    status: "success",
+    message: "Data updated successfully",
+    data: data[0],
+  });
+});
+
 router.delete(
-  "/share/:shared_id",
-  authMiddleware,
+  "/share/:id",
+
   async (req: Request, res: Response) => {
     const customRequest = req as CustomRequest;
 

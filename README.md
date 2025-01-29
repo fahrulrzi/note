@@ -4,6 +4,12 @@
 - [Vercel](https://note-iota-two.vercel.app/) -> main
 
 ## Endpoints
+### Table of Contents
+- [Auth](#1-auth)
+- [Notes](#2-notes)
+- [Folders](#3-shared-notes)
+- [Tags](#4-tags)
+
 
 ### 1. **Auth**
 #### a. **Register**
@@ -416,7 +422,50 @@
             "message": "Unauthorized"
         }
         ```
-#### c. **Delete Shared Note**
+#### c. **Update Shared Note**
+- **URL**: `/api/notes/share/:id`
+- **Method**: `PUT`
+- **Request Body**: 
+    ```json
+    {
+        "title": "Updated Title", // tidak harus keduanya
+        "content": "Updated Content"
+    }
+    ```
+- **Response**:
+    - **200 OK**:
+        ```json
+        {
+            "status": "success",
+            "message": "Data updated successfully",
+            "data": {
+                "title": "Note Title",
+                "content": "Note Content",
+            }
+        }
+        ```
+    - **400 Bad Request**:
+        ```json
+        {
+            "status": "error",
+            "message": "You don't have permission to edit this note",
+        }
+    - **500 Internal Server Error**:
+        ```json
+        {
+            "status": "error",
+            "message": "Internal Server Error"
+        }
+        ```
+    - **401 Unauthorized**:
+        ```json
+        {
+            "status": "error",  
+            "message": "Unauthorized"
+        }
+        ```
+
+#### d. **Delete Shared Note**
 - **URL**: `/api/notes/share/:id`
 - **Method**: `DELETE`
 - **Response**:
@@ -449,3 +498,127 @@
             "message": "Unauthorized"
         }
         ```
+
+### 4. **Tags**
+#### a. **Get All Tags**
+- **URL**: `/api/tags`
+- **Method**: `GET`
+- **Response**:
+    - **200 OK**:
+        ```json
+        {
+            "status": "success",
+            "message": "Data fetched successfully",
+            "data": [
+                {
+                    "id": 1,
+                    "name": "example tag"
+                }
+            ]
+        }
+        ```
+    - **500 Internal Server Error**:
+        ```json
+        {
+            "status": "error",
+            "message": "Internal Server Error"
+        }
+        ```
+#### b. **Create Tag**
+- **URL**: `/api/tags`
+- **Method**: `POST`
+- **Request Body**: 
+    ```json
+    {
+        "name": "example tag"
+    }
+    ```
+- **Response**:
+    - **200 OK**:
+        ```json
+        {
+            "status": "success",
+            "message": "Data created successfully",
+            "data": {
+                "id": 1,
+                "name": "example tag"
+            }
+        }
+        ```
+    - **500 Internal Server Error**:
+        ```json
+        {
+            "status": "error",
+            "message": "Internal Server Error"
+        }
+        ```
+    - **401 Unauthorized**:
+        ```json
+        {
+            "status": "error",
+            "message": "Unauthorized"
+        }
+        ```
+#### c. **Update Tag**
+- **URL**: `/api/tags/:id`
+- **Method**: `PUT`
+- **Request Body**: 
+    ```json
+    {
+        "name": "updated tag"
+    }
+    ```
+- **Response**:
+    - **200 OK**:
+        ```json
+        {
+            "status": "success",
+            "message": "Data updated successfully",
+            "data": {
+                "id": 1,
+                "name": "updated tag"
+            }
+        }
+        ```
+    - **500 Internal Server Error**:
+        ```json
+        {
+            "status": "error",
+            "message": "Internal Server Error"
+        }
+        ```
+    - **401 Unauthorized**:
+        ```json
+        {
+            "status": "error",
+            "message": "Unauthorized"
+        }
+        ```
+#### d. **Delete Tag**
+- **URL**: `/api/tags/:id`
+- **Method**: `DELETE`
+- **Response**:
+    - **200 OK**:
+        ```json
+        {
+            "status": "success",
+            "message": "Data deleted successfully",
+            "data": {
+                "id": 1,
+                "name": "updated tag"
+            }
+        }
+        ```
+    - **500 Internal Server Error**:
+        ```json
+        {
+            "status": "error",
+            "message": "Internal Server Error"
+        }
+        ```
+    - **401 Unauthorized**:
+        ```json
+        {
+            "status": "error",
+            "message": "Unauthorized"
+        }
