@@ -10,4 +10,6 @@ interface CustomRequest extends Request {
   user: User;
 }
 
-export { User, CustomRequest };
+interface CustomRequestImage extends CustomRequest {}
+
+export { CustomRequest, User };

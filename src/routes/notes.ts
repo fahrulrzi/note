@@ -2,6 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import { supabase } from "../service/supabase";
 // import pool from "../service/pool";
 import { CustomRequest } from "../types/token";
+import authMiddleware from "../middleware/authMiddleware";
 // import { stat } from "fs";
 
 const router = Router();
@@ -60,10 +61,11 @@ router.get("/", async (req: Request, res: Response) => {
     const { data: folders, error: folderError } = await supabase
       .from("folders")
       .select(
-        `id, 
+        `id,
         folder_name:name, 
         notes (id, title, 
-        content, is_pinned, 
+        content,
+        is_pinned,
         tags:note_tags(tags(id, name)), 
         created_at
         )`
@@ -124,7 +126,7 @@ router.get(
     if (error) {
       res.status(500).json({
         status: "error",
-        message: "Internal server error",
+        message: `Internal server error: ${error.message}`,
       });
       return;
     }
@@ -144,11 +146,12 @@ router.get(
   }
 );
 
-router.post("/", async (req: Request, res: Response) => {
+router.post("/",async (req: Request, res: Response) => {
   const customRequest = req as CustomRequest;
 
   try {
     const { title, content, folder_id, is_pinned } = req.body;
+    console.log("content=>", content);
 
     const { data, error } = await supabase
       .from("notes")
@@ -164,7 +167,7 @@ router.post("/", async (req: Request, res: Response) => {
     if (error) {
       res.status(500).json({
         status: "error",
-        message: "Internal server error",
+        message: `Internal server error: ${error.message}`,
       });
       return;
     }
@@ -364,7 +367,7 @@ router.get("/shared", async (req: Request, res: Response) => {
 router.put("/share/:id", async (req: Request, res: Response) => {
   const customRequest = req as CustomRequest;
 
-  const { shared_id} = req.params;
+  const { shared_id } = req.params;
   const { title, content } = req.body;
 
   const { data: notes, error: notesError } = await supabase
@@ -404,7 +407,7 @@ router.put("/share/:id", async (req: Request, res: Response) => {
 
   if (noteError) {
     res.status(500).json({
-      status: "error",  
+      status: "error",
       message: "Internal server error",
     });
     return;
@@ -422,7 +425,7 @@ router.put("/share/:id", async (req: Request, res: Response) => {
     .from("notes")
     .update({
       title: title || note[0].title,
-      content : content || note[0].content,
+      content: content || note[0].content,
       updated_at: new Date(),
     })
     .eq("id", notes[0].note_id)

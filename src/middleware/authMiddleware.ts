@@ -1,19 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { CustomRequest, User } from "../types/token";
+import { CustomRequest, User} from "../types/token";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
-
-// interface User {
-//   id: number;
-//   email: string;
-//   name: string;
-// }
-
-// interface CustomRequest extends Request {
-
-//   user: User;
-// }
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const customRequest = req as CustomRequest;

@@ -10,6 +10,7 @@
 - [Notes](#2-notes)
 - [Shared Notes](#3-shared-notes)
 - [Tags](#4-tags)
+- [Upload-Image](#5-upload-image)
 
 
 ### 1. **Auth**
@@ -623,3 +624,52 @@
             "status": "error",
             "message": "Unauthorized"
         }
+### 5. **Upload Image**
+#### a. **Post Image**
+- **URL**: `/api/images/:id` => id notes
+- **Method**: `POST`
+- **Request Body (from-data)**: 
+    - **Required fields**:
+        - `image`: image file (PNG, JPG, JPEG)
+- **File Restrictions**:
+    - **Max file size**: 5MB
+    - **Allowed file types**: PNG, JPG, JPEG
+- **Response**:
+    - **200 OK**:
+        ```json
+        {
+            "status": "success",
+            "message": "Image uploaded successfully",
+            "data": {
+                "publicUrl": "https://tszgokpzvjfncgdngqhx.supabase.co/storage/v1/object/public/image_note/2b401a63-8749-42f7-862a-52c205ab0c3c_362853BF-A855-4223-BB4B-1A39C82FF6A5.png"
+            }
+        }
+        ```
+    - **500 Internal Server Error**:
+        ```json
+        {
+            "status": "error",
+            "message": "Internal server error [object Object]"
+        }
+        ```
+#### b. **Delete Image**
+- **URL**: `/api/images/:id` => id notes
+- **Method**: `DELETE`
+- **Response**:
+    - **200 OK**:
+        ```json
+        {
+            "status": "success",
+            "message": "Image uploaded successfully",
+            "data": {
+                "publicUrl": "https://tszgokpzvjfncgdngqhx.supabase.co/storage/v1/object/public/image_note/2b401a63-8749-42f7-862a-52c205ab0c3c_362853BF-A855-4223-BB4B-1A39C82FF6A5.png"
+            }
+        }
+        ```
+    - **500 Internal Server Error**:
+        ```json
+        {
+            "status": "error",
+            "message": "Internal server error [object Object]"
+        }
+        ```
