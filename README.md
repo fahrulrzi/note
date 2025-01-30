@@ -10,10 +10,33 @@
 ### Table of Contents
 
 - [Auth](#1-auth)
+  - [Register](#a-register)
+  - [Login](#b-login)
 - [Notes](#2-notes)
+  - [Create Note](#a-create-note)
+  - [Get All Notes](#b-get-all-notes)
+  - [Get Single Note](#c-get-single-note)
+  - [Update Note](#d-update-note)
+  - [Delete Note](#e-delete-note)
+  - [Get Note By Title Ascending](#f-get-note-by-title-ascending)
+  - [Get Note By Updated](#g-get-note-by-updated)
+  - [Get Note By Pinned](#h-get-note-by-pinned)
+  - [Search Note By Title](#i-search-note-by-title)
 - [Shared Notes](#3-shared-notes)
+  - [Get All Shared Notes](#a-get-all-shared-notes)
+  - [Create Shared Note](#b-create-shared-note)
+  - [Update Shared Note](#c-update-shared-note)
+  - [Delete Shared Note](#d-delete-shared-note)
 - [Tags](#4-tags)
+  - [Get All Tags](#a-get-all-tags)
+  - [Create Tag](#b-create-tag)
+  - [Update Tag](#c-update-tag)
+  - [Delete Tag](#d-delete-tag)
 - [Upload-Image](#5-upload-image)
+  - [Post Image](#a-post-image)
+  - [Delete Image](#b-delete-image)
+- [User](#6-user)
+  - [Get User by Name](#a-get-user-by-name)
 
 ### 1. **Auth**
 
@@ -637,6 +660,7 @@
       "message": "Internal Server Error"
     }
     ```
+
 #### i. **Search Note By Title**
 
 - **URL**: `/api/notes/search/:title`
@@ -645,45 +669,45 @@
   - **Required params**:
     - `title`: title of note
 - **Response**:
-    - **200 OK**:
-        ```json
+  - **200 OK**:
+    ```json
+    {
+      "status": "success",
+      "message": "Data fetched successfully",
+      "data": [
         {
-        "status": "success",
-        "message": "Data fetched successfully",
-        "data": [
-            {
-            "id": 1,
-            "title": "note 1",
-            "content": { "block": "content" },
-            "is_pinned": false,
-            "created_at": "2025-01-24T06:05:26.789807+00:00",
-            "updated_at": "2025-01-24T06:05:26.789807+00:00"
-            },
-            {
-            "id": 2,
-            "title": "note 2",
-            "content": { "block": "content" },
-            "is_pinned": false,
-            "created_at": "2025-01-23T23:19:21.666202+00:00",
-            "updated_at": "2025-01-24T06:05:26.789807+00:00"
-            }
-        ]
-        }
-        ```
-    - **404 Not Found**:
-        ```json
+          "id": 1,
+          "title": "note 1",
+          "content": { "block": "content" },
+          "is_pinned": false,
+          "created_at": "2025-01-24T06:05:26.789807+00:00",
+          "updated_at": "2025-01-24T06:05:26.789807+00:00"
+        },
         {
-        "status": "error",
-        "message": "Note not found"
+          "id": 2,
+          "title": "note 2",
+          "content": { "block": "content" },
+          "is_pinned": false,
+          "created_at": "2025-01-23T23:19:21.666202+00:00",
+          "updated_at": "2025-01-24T06:05:26.789807+00:00"
         }
-        ```
-    - **500 Internal Server Error**:
-        ```json
-        {
-        "status": "error",
-        "message": "Internal Server Error"
-        }
-        ```
+      ]
+    }
+    ```
+  - **404 Not Found**:
+    ```json
+    {
+      "status": "error",
+      "message": "Note not found"
+    }
+    ```
+  - **500 Internal Server Error**:
+    ```json
+    {
+      "status": "error",
+      "message": "Internal Server Error"
+    }
+    ```
 
 ### 3. **Shared Notes**
 
@@ -1052,3 +1076,30 @@
       "message": "Internal server error [object Object]"
     }
     ```
+
+### 6. **User**
+
+#### a. **Get User by Name**
+
+- **URL**: `/api/users/:name`
+- **Method**: `GET`
+- **Response**:
+  - **200 OK**:
+    ```json
+    {
+      "status": "success",
+      "message": "Data fetched successfully",
+      "data": {
+        "id": 1,
+        "name": "John Doe",
+        "email": "example@example.com"
+      }
+    }
+    ```
+    - **500 Internal Server Error**:
+      ```json
+      {
+        "status": "error",
+        "message": "Internal Server Error"
+      }
+      ```
