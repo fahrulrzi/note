@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import { supabase } from "../service/supabase";
 import authMiddleware from "../middleware/authMiddleware";
+import { CustomRequest } from "../types/token";
 
 const router = Router();
 
@@ -17,7 +18,7 @@ const router = Router();
 // testing testing
 
 // get all users
-router.get("/", authMiddleware, async (req, res) => {
+router.get("/", async (req, res) => {
   // const customRequest = req as CustomRequest;
 
   try {
@@ -49,19 +50,31 @@ router.get("/", authMiddleware, async (req, res) => {
   }
 });
 
-router.get("/test-connection", async (req, res) => {
+router.get("/:name", async (req: Request, res: Response) => {
   try {
-    const { data, error } = await supabase.from("users").select("count");
+    const { name } = req.params;
+
+    const { data, error } = await supabase
+      .from("users")
+      .select("id, name, email")
+      .eq("name", name);
+
+    if (error) {
+      res.status(500).json({
+        status: "error",
+        message: `Internal server error ${error}`,
+      });
+    }
 
     res.json({
-      connectionStatus: "Connected",
-      count: data,
-      error: error,
+      status: "success",
+      message: "User data retrieved successfully",
+      data: data || [],
     });
   } catch (error) {
     res.status(500).json({
-      connectionStatus: "Failed",
-      error: error,
+      status: "error",
+      message: `Internal server error ${error}`,
     });
   }
 });

@@ -63,7 +63,9 @@ router.get("/", async (req: Request, res: Response) => {
       .select(
         `id,
         folder_name:name, 
-        notes (id, title, 
+        notes (
+        id, 
+        title, 
         content,
         is_pinned,
         tags:note_tags(tags(id, name)), 
@@ -112,7 +114,13 @@ router.get(
 
     const { id } = req.params;
 
-    if (id === "shared") {
+    if (
+      id === "shared" ||
+      id === "sort-by-name" ||
+      id === "sort-by-update" ||
+      id === "search" ||
+      id === "pinned"
+    ) {
       return next();
     }
     const { data, error } = await supabase
@@ -146,7 +154,7 @@ router.get(
   }
 );
 
-router.post("/",async (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response) => {
   const customRequest = req as CustomRequest;
 
   try {
@@ -287,6 +295,104 @@ router.delete("/:id", async (req: Request, res: Response) => {
     status: "success",
     message: "Data deleted successfully",
     data: data[0],
+  });
+});
+
+router.get("/search/:title", async (req: Request, res: Response) => {
+  const customRequest = req as CustomRequest;
+
+  const { title } = req.params;
+
+  const { data, error } = await supabase
+    .from("notes")
+    .select("id, title, content, is_pinned, created_at, updated_at")
+    .eq("user_id", customRequest.user.id)
+    .ilike("title", `%${title}%`);
+
+  if (error) {
+    res.status(500).json({
+      status: "error",
+      message: `Internal server error: ${error.message}`,
+    });
+    return;
+  }
+
+  res.json({
+    status: "success",
+    message: "Data fetched successfully",
+    data: data,
+  });
+});
+
+router.get("/sort-by-title", async (req: Request, res: Response) => {
+  const customRequest = req as CustomRequest;
+
+  const { data, error } = await supabase
+    .from("notes")
+    .select("id, title, content, is_pinned, created_at, updated_at")
+    .eq("user_id", customRequest.user.id)
+    .order("title", { ascending: true });
+
+  if (error) {
+    res.status(500).json({
+      status: "error",
+      message: `Internal server error: ${error.message}`,
+    });
+    return;
+  }
+
+  res.json({
+    status: "success",
+    message: "Data fetched successfully",
+    data: data,
+  });
+});
+
+router.get("/sort-by-update", async (req: Request, res: Response) => {
+  const customRequest = req as CustomRequest;
+
+  const { data, error } = await supabase
+    .from("notes")
+    .select("id, title, content, is_pinned, created_at, updated_at")
+    .eq("user_id", customRequest.user.id)
+    .order("updated_at", { ascending: false });
+
+  if (error) {
+    res.status(500).json({
+      status: "error",
+      message: `Internal server error: ${error.message}`,
+    });
+    return;
+  }
+
+  res.json({
+    status: "success",
+    message: "Data fetched successfully",
+    data: data,
+  });
+});
+
+router.get("/pinned", async (req: Request, res: Response) => {
+  const customRequest = req as CustomRequest;
+
+  const { data, error } = await supabase
+    .from("notes")
+    .select("id, title, content, is_pinned, created_at, updated_at")
+    .eq("user_id", customRequest.user.id)
+    .eq("is_pinned", true);
+
+  if (error) {
+    res.status(500).json({
+      status: "error",
+      message: `Internal server error: ${error.message}`,
+    });
+    return;
+  }
+
+  res.json({
+    status: "success",
+    message: "Data fetched successfully",
+    data: data,
   });
 });
 
