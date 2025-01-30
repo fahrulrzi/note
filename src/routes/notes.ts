@@ -57,7 +57,6 @@ router.get("/", async (req: Request, res: Response) => {
     //   standalone_notes: standaloneNotes,
     // });
 
-
     // ? mengambil data dari notes
     const { data, error } = await supabase
       .from("notes")
@@ -71,54 +70,60 @@ router.get("/", async (req: Request, res: Response) => {
       )
       .eq("user_id", customRequest.user.id);
 
+    if (error) throw error;
+
+    res.json({
+      status: "success",
+      message: "Data fetched successfully",
+      data,
+    });
 
 
 
 
+    
 
+    //   //  ? mengambil data dari folder
+    //   const { data: folders, error: folderError } = await supabase
+    //     .from("folders")
+    //     .select(
+    //       `id,
+    //       folder_name:name,
+    //       notes (
+    //       id,
+    //       title,
+    //       content,
+    //       is_pinned,
+    //       tags:note_tags(tags(id, name)),
+    //       created_at
+    //       )`
+    //     )
+    //     .eq("user_id", customRequest.user.id);
 
+    //   if (folderError) throw folderError;
 
-  //   //  ? mengambil data dari folder
-  //   const { data: folders, error: folderError } = await supabase
-  //     .from("folders")
-  //     .select(
-  //       `id,
-  //       folder_name:name, 
-  //       notes (
-  //       id, 
-  //       title, 
-  //       content,
-  //       is_pinned,
-  //       tags:note_tags(tags(id, name)), 
-  //       created_at
-  //       )`
-  //     )
-  //     .eq("user_id", customRequest.user.id);
+    //   // ? mengambil data dari notes
+    //   const { data: standaloneNotes, error: notesError } = await supabase
+    //     .from("notes")
+    //     .select(
+    //       `id, title,
+    //       content,
+    //       is_pinned,
+    //       tags:note_tags(tags(id, name)),
+    //       created_at
+    //       `
+    //     )
+    //     .is("folder_id", null)
+    //     .eq("user_id", customRequest.user.id);
 
-  //   if (folderError) throw folderError;
+    //   if (notesError) throw notesError;
 
-  //   // ? mengambil data dari notes
-  //   const { data: standaloneNotes, error: notesError } = await supabase
-  //     .from("notes")
-  //     .select(
-  //       `id, title, 
-  //       content, 
-  //       is_pinned, 
-  //       tags:note_tags(tags(id, name)), 
-  //       created_at
-  //       `
-  //     )
-  //     .is("folder_id", null)
-  //     .eq("user_id", customRequest.user.id);
-
-  //   if (notesError) throw notesError;
-
-  //   res.json({
-  //     status: "success",
-  //     message: "Data fetched successfully",
-  //     folders,
-  //     standalone_notes: standaloneNotes,
-  //   });
+    //   res.json({
+    //     status: "success",
+    //     message: "Data fetched successfully",
+    //     folders,
+    //     standalone_notes: standaloneNotes,
+    //   });
   } catch (error) {
     res.status(500).json({
       status: "error",
