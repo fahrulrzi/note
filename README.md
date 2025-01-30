@@ -104,11 +104,100 @@
     - **201 Created**:
         ```json
         {
-            "message": "Note created successfully",
-            "note": {
-                "id": 1,
-                "title": "Example Title",
-                "content": "Example Content"
+            "status": "success",
+            "message": "Data posted successfully",
+            "data": {
+                "id": 14,
+                "user_id": 12,
+                "title": "ambatron",
+                "content": {
+                    "blocks": [
+                        {
+                            "id": "cKcVmNrXBi",
+                            "data": {
+                                "text": "Pengertian dan Manfaat Olahraga Lari",
+                                "level": 2
+                            },
+                            "type": "header"
+                        },
+                        {
+                            "id": "GcMnrBBu5a",
+                            "data": {
+                                "file": {
+                                    "url": "http://127.0.0.1:8000/storage/images/articles/yphVkaU8GKQFNBZoTREoRsj7cs6Ng5fVF4JfuInt.png"
+                                },
+                                "caption": null,
+                                "stretched": false,
+                                "withBorder": false,
+                                "withBackground": false
+                            },
+                            "type": "image"
+                        },
+                        {
+                            "id": "DUzGmLkOI4",
+                            "data": {
+                                "text": "Lari adalah bentuk olahraga aerobik yang melibatkan gerakan berlari atau jogging untuk meningkatkan kebugaran fisik. Olahraga ini tergolong mudah dilakukan karena hanya membutuhkan sepasang sepatu yang nyaman dan area untuk berlari. Beberapa manfaat utama dari olahraga lari antara lain:"
+                            },
+                            "type": "paragraph"
+                        },
+                        {
+                            "id": "ff_GeVgIZ_",
+                            "data": {
+                                "meta": [],
+                                "items": [
+                                    {
+                                        "meta": [],
+                                        "items": [],
+                                        "content": "Meningkatkan kesehatan jantung dan sistem kardiovaskular"
+                                    },
+                                    {
+                                        "meta": [],
+                                        "items": [],
+                                        "content": "Membantu menurunkan berat badan dan membakar kalori"
+                                    },
+                                    {
+                                        "meta": [],
+                                        "items": [],
+                                        "content": "Mengurangi stres dan meningkatkan kesehatan mental"
+                                    },
+                                    {
+                                        "meta": [],
+                                        "items": [],
+                                        "content": "Memperkuat otot dan tulang"
+                                    },
+                                    {
+                                        "meta": [],
+                                        "items": [],
+                                        "content": "Meningkatkan daya tahan tubuh secara keseluruhan"
+                                    },
+                                    {
+                                        "meta": [],
+                                        "items": [],
+                                        "content": "Membantu mengatur pola tidur yang lebih baik"
+                                    },
+                                    {
+                                        "meta": [],
+                                        "items": [],
+                                        "content": "Menurunkan risiko penyakit kronis seperti diabetes tipe 2 dan hipertensi"
+                                    }
+                                ],
+                                "style": "unordered"
+                            },
+                            "type": "list"
+                        },
+                        {
+                            "id": "mrFuw8VgDI",
+                            "data": {
+                                "text": "Bagi pemula, penting untuk memulai olahraga lari secara bertahap agar tubuh bisa beradaptasi dan terhindar dari cedera. Berikut ini adalah panduan lengkap tips lari untuk pemula yang bisa Anda terapkan."
+                            },
+                            "type": "paragraph"
+                        }
+                    ]
+                },
+                "is_pinned": false,
+                "created_at": "2025-01-30T11:22:43.084686+00:00",
+                "updated_at": "2025-01-30T11:22:43.084686+00:00",
+                "folder_id": null
             }
         }
         ```
