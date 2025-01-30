@@ -64,7 +64,6 @@ router.get("/", async (req: Request, res: Response) => {
         `id, title, 
         content, 
         is_pinned, 
-        tags:note_tags(tags(id, name)), 
         created_at
         `
       )
@@ -80,8 +79,6 @@ router.get("/", async (req: Request, res: Response) => {
 
 
 
-
-    
 
     //   //  ? mengambil data dari folder
     //   const { data: folders, error: folderError } = await supabase
