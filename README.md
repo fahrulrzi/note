@@ -2,6 +2,7 @@
 
 ## Base URL
 - [Vercel](https://note-iota-two.vercel.app/) -> main
+- https://note-iota-two.vercel.app/ 
 
 ## Endpoints
 ### Table of Contents
