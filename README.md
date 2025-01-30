@@ -655,6 +655,12 @@
 #### b. **Delete Image**
 - **URL**: `/api/images/:id` => id notes
 - **Method**: `DELETE`
+- **Request Body**: 
+    ```json
+    {
+        "publicUrl": "https://publicURL/example.png"
+    }
+    ```
 - **Response**:
     - **200 OK**:
         ```json

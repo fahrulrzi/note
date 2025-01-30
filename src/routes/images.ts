@@ -56,9 +56,9 @@ router.post("/:id", async (req: Request, res: Response) => {
 
 router.delete("/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { imageUrl } = req.body;
+  const { publicUrl } = req.body;
 
-  const fileName = imageUrl.split("/").pop();
+  const fileName = publicUrl.split("/").pop();
 
   const { data: imageData, error: imageError } = await supabase
     .from("note_images")
