@@ -63,7 +63,8 @@ router.get("/", async (req: Request, res: Response) => {
       .select(
         `id, title, 
         content, 
-        is_pinned, 
+        is_pinned,
+        tags:note_tags(tags(id, name)),
         created_at
         `
       )
