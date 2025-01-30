@@ -60,20 +60,6 @@ router.delete("/:id", async (req: Request, res: Response) => {
 
   const fileName = publicUrl.split("/").pop();
 
-  const { data: imageData, error: imageError } = await supabase
-    .from("note_images")
-    .delete()
-    .eq("note_id", id)
-    .eq("image_name", fileName);
-
-  if (imageError) {
-    res.status(500).json({
-      status: "error",
-      message: `Internal server error ${imageError.message}`,
-    });
-    return;
-  }
-
   const { data, error } = await supabase.storage
     .from("image_note")
     .remove([fileName]);
