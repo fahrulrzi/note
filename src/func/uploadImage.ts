@@ -20,17 +20,6 @@ async function uploadImage(imageFile: UploadedFile, noteId: Number) {
       data: { publicUrl },
     } = supabase.storage.from("image_note").getPublicUrl(sanitizedFileName);
 
-    // Insert image data to database
-    const { data, error } = await supabase.from("note_images").insert([
-      {
-        note_id: noteId,
-        image_url: publicUrl,
-        image_name: sanitizedFileName,
-      },
-    ]);
-
-    if (error) throw error;
-
     return publicUrl;
   } catch (error) {
     console.error("Error uploading image: ", error);
