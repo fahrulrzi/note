@@ -1,4 +1,4 @@
-import { Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { CustomRequest } from "../types/token";
 import { supabase } from "../service/supabase";
 
@@ -146,14 +146,20 @@ router.delete("/:id", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/:id", async (req: Request, res: Response) => {
+router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
   const customRequest = req as CustomRequest;
+
+  const { id } = req.params;
+
+  if (id === "short-by-name" || id === "short-by-date") {
+    return next();
+  }
 
   try {
     const { data: notesData, error: notesError } = await supabase
       .from("notes")
       .select("id, title, content, created_at, updated_at")
-      .eq("folder_id", req.params.id)
+      .eq("folder_id", id)
       .eq("user_id", customRequest.user.id);
 
     if (notesError) {
@@ -169,6 +175,66 @@ router.get("/:id", async (req: Request, res: Response) => {
       message: `Data fetched successfully`,
       data: notesData,
     });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: `Internal server error ${error}`,
+    });
+  }
+});
+
+router.get("/:sorting", async (req: Request, res: Response) => {
+  const customRequest = req as CustomRequest;
+
+  const { sorting } = req.params;
+
+  try {
+    if (sorting === "short-by-name") {
+      const { data, error } = await supabase
+        .from("folders")
+        .select("id, name, created_at, updated_at")
+        .eq("user_id", customRequest.user.id)
+        .order("name");
+
+      if (error) {
+        res.status(500).json({
+          status: "Error",
+          message: `Internal server error: ${error.message}`,
+        });
+        return;
+      }
+
+      res.json({
+        status: "Success",
+        message: `Data fetched successfully`,
+        data: data,
+      });
+    } else if (sorting === "short-by-date") {
+      const { data, error } = await supabase
+        .from("folders")
+        .select("id, name, created_at, updated_at")
+        .eq("user_id", customRequest.user.id)
+        .order("updated_at", { ascending: false });
+
+      if (error) {
+        res.status(500).json({
+          status: "Error",
+          message: `Internal server error: ${error.message}`,
+        });
+        return;
+      }
+
+      res.json({
+        status: "Success",
+        message: `Data fetched successfully`,
+        data: data,
+      });
+    } else {
+      res.status(400).json({
+        status: "Error",
+        message: `Invalid sorting parameter`,
+      });
+    }
   } catch (error) {
     res.status(500).json({
       status: "error",
