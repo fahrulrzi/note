@@ -65,6 +65,7 @@ router.get("/", async (req: Request, res: Response) => {
         content, 
         is_pinned,
         tags:note_tags(tags(id, name)),
+        folder(id, name),
         created_at
         `
       )
