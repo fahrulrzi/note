@@ -4,7 +4,7 @@ import authRoutes from "./auth/auth";
 import noteRoutes from "./routes/notes";
 import tagRoutes from "./routes/tags";
 import imagesRoutes from "./routes/images";
-// import folderRoutes from "./routes/folders";
+import folderRoutes from "./routes/folders";
 import cors from "cors";
 import dotenv from "dotenv";
 import authMiddleware from "./middleware/authMiddleware";
@@ -31,7 +31,7 @@ app.use("/auth", authRoutes);
 app.use("/api/notes", authMiddleware, noteRoutes);
 app.use("/api/tags", authMiddleware, tagRoutes);
 app.use("/api/images", authMiddleware, imagesRoutes);
-// app.use("/api/folders", authMiddleware, folderRoutes);
+app.use("/api/folders", authMiddleware, folderRoutes);
 
 // Set the network port
 const port = process.env.PORT || 3000;
