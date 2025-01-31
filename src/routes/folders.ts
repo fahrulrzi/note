@@ -151,7 +151,7 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
 
   const { id } = req.params;
 
-  if (id === "sort-by-name" || id === "sort-by-date") {
+  if (id === "sort-by-name" || id === "sort-by-update") {
     return next();
   }
 
