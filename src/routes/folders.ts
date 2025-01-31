@@ -11,7 +11,7 @@ router.get("/", async (req: Request, res: Response) => {
     const { data, error } = await supabase
       .from("folders")
       .select("id, name, created_at, updated_at")
-      .eq("id", customRequest.user.id);
+      .eq("user_id", customRequest.user.id);
 
     if (error) {
       res.status(500).json({
