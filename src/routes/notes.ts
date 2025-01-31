@@ -64,8 +64,9 @@ router.get("/", async (req: Request, res: Response) => {
         `id, title, 
         content, 
         is_pinned,
-        tags:note_tags(tags(id, name))
-        created_at
+        tags:note_tags(tags(id, name)),
+        created_at,
+        updated_at
         `
       )
       .eq("user_id", customRequest.user.id);
