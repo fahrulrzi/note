@@ -151,7 +151,7 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
 
   const { id } = req.params;
 
-  if (id === "short-by-name" || id === "short-by-date") {
+  if (id === "sort-by-name" || id === "sort-by-date") {
     return next();
   }
 
@@ -189,7 +189,7 @@ router.get("/:sorting", async (req: Request, res: Response) => {
   const { sorting } = req.params;
 
   try {
-    if (sorting === "short-by-name") {
+    if (sorting === "sort-by-name") {
       const { data, error } = await supabase
         .from("folders")
         .select("id, name, created_at, updated_at")
@@ -209,7 +209,7 @@ router.get("/:sorting", async (req: Request, res: Response) => {
         message: `Data fetched successfully`,
         data: data,
       });
-    } else if (sorting === "short-by-update") {
+    } else if (sorting === "sort-by-update") {
       const { data, error } = await supabase
         .from("folders")
         .select("id, name, created_at, updated_at")
