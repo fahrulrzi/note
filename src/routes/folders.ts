@@ -209,7 +209,7 @@ router.get("/:sorting", async (req: Request, res: Response) => {
         message: `Data fetched successfully`,
         data: data,
       });
-    } else if (sorting === "short-by-date") {
+    } else if (sorting === "short-by-update") {
       const { data, error } = await supabase
         .from("folders")
         .select("id, name, created_at, updated_at")
