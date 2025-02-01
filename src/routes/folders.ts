@@ -10,7 +10,7 @@ router.get("/", async (req: Request, res: Response) => {
   try {
     const { data, error } = await supabase
       .from("folders")
-      .select("id, name, created_at, updated_at")
+      .select("id, name, is_pinned,created_at, updated_at")
       .eq("user_id", customRequest.user.id);
 
     if (error) {
@@ -37,12 +37,16 @@ router.get("/", async (req: Request, res: Response) => {
 router.post("/", async (req: Request, res: Response) => {
   const customRequest = req as CustomRequest;
 
-  const { name } = req.body;
+  const { name, is_pinned } = req.body;
 
   try {
     const { data, error } = await supabase
       .from("folders")
-      .insert({ name: name, user_id: customRequest.user.id })
+      .insert({
+        name: name,
+        user_id: customRequest.user.id,
+        is_pinned: is_pinned || false,
+      })
       .select();
 
     if (error) {
@@ -151,7 +155,7 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
 
   const { id } = req.params;
 
-  if (id === "sort-by-name" || id === "sort-by-update") {
+  if (id === "sort-by-name" || id === "sort-by-update" || id === "pinned") {
     return next();
   }
 
@@ -215,6 +219,25 @@ router.get("/:sorting", async (req: Request, res: Response) => {
         .select("id, name, created_at, updated_at")
         .eq("user_id", customRequest.user.id)
         .order("updated_at", { ascending: false });
+
+      if (error) {
+        res.status(500).json({
+          status: "Error",
+          message: `Internal server error: ${error.message}`,
+        });
+        return;
+      }
+      res.json({
+        status: "Success",
+        message: `Data fetched successfully`,
+        data: data,
+      });
+    } else if (sorting === "pinned") {
+      const { data, error } = await supabase
+        .from("folders")
+        .select("id, name, is_pinned,created_at, updated_at")
+        .eq("user_id", customRequest.user.id)
+        .eq("is_pinned", true);
 
       if (error) {
         res.status(500).json({
