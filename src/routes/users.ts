@@ -50,14 +50,14 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:name", async (req: Request, res: Response) => {
+router.get("/:email", async (req: Request, res: Response) => {
   try {
-    const { name } = req.params;
+    const { email } = req.params;
 
     const { data, error } = await supabase
       .from("users")
       .select("id, name, email")
-      .eq("name", name);
+      .eq("email", email);
 
     if (error) {
       res.status(500).json({
