@@ -148,7 +148,7 @@ router.get(
     const { data, error } = await supabase
       .from("notes")
       .select(
-        "id, title, content, is_pinned, folders(id,name), tags:note_tags(tags(id, name)), created_at"
+        "id, title, content, is_pinned, folders(id,name), tags:note_tags(tags(id, name)), created_at, updated_at"
       )
       .eq("user_id", customRequest.user.id)
       .eq("id", id);
