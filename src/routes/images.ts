@@ -64,7 +64,7 @@ router.post("/:id", async (req: Request, res: Response) => {
     res.json({
       status: "success",
       message: "Image uploaded successfully",
-      data: { publicUrl: upImage },
+      file: { url: upImage },
     });
   } catch (error) {
     console.error("Error uploading image: ", error);
