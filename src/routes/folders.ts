@@ -172,42 +172,45 @@ router.delete("/:id", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/:id/notes", async (req: Request, res: Response, next: NextFunction) => {
-  const customRequest = req as CustomRequest;
+router.get(
+  "/:id/notes",
+  async (req: Request, res: Response, next: NextFunction) => {
+    const customRequest = req as CustomRequest;
 
-  const { id } = req.params;
+    const { id } = req.params;
 
-  if (id === "sort-by-name" || id === "sort-by-update" || id === "pinned") {
-    return next();
-  }
-
-  try {
-    const { data: notesData, error: notesError } = await supabase
-      .from("notes")
-      .select("id, title, content, created_at, updated_at")
-      .eq("folder_id", id)
-      .eq("user_id", customRequest.user.id);
-
-    if (notesError) {
-      res.status(500).json({
-        status: "Error",
-        message: `Internal server error: ${notesError.message}`,
-      });
-      return;
+    if (id === "sort-by-name" || id === "sort-by-update" || id === "pinned") {
+      return next();
     }
 
-    res.json({
-      status: "Success",
-      message: `Data fetched successfully`,
-      data: notesData,
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: "Error",
-      message: `Internal server error ${error}`,
-    });
+    try {
+      const { data: notesData, error: notesError } = await supabase
+        .from("notes")
+        .select("id, title, content, is_pinned, created_at, updated_at")
+        .eq("folder_id", id)
+        .eq("user_id", customRequest.user.id);
+
+      if (notesError) {
+        res.status(500).json({
+          status: "Error",
+          message: `Internal server error: ${notesError.message}`,
+        });
+        return;
+      }
+
+      res.json({
+        status: "Success",
+        message: `Data fetched successfully`,
+        data: notesData,
+      });
+    } catch (error) {
+      res.status(500).json({
+        status: "Error",
+        message: `Internal server error ${error}`,
+      });
+    }
   }
-});
+);
 
 router.get("/:sorting", async (req: Request, res: Response) => {
   const customRequest = req as CustomRequest;
