@@ -215,10 +215,15 @@ router.post("/", async (req: Request, res: Response) => {
   }
 });
 
-router.put("/:id", async (req: Request, res: Response) => {
+router.put("/:id", async (req: Request, res: Response, next: NextFunction) => {
   const customRequest = req as CustomRequest;
 
   const { id } = req.params;
+
+  if (id === "share") {
+    return next();
+  }
+
   const { title, content, folder_id, is_pinned } = req.body;
 
   const { data: notes, error: notesError } = await supabase
@@ -227,18 +232,96 @@ router.put("/:id", async (req: Request, res: Response) => {
     .eq("user_id", customRequest.user.id)
     .eq("id", id);
 
-  if (notes?.length === 0) {
-    res.status(404).json({
-      status: "Error",
-      message: "Note not found",
-    });
-    return;
-  }
-
   if (notesError) {
     res.status(500).json({
       status: "Error",
       message: "Internal server error",
+    });
+    return;
+  }
+
+  if (notes?.length === 0) {
+    const { data: noteShared, error: noteSharedError } = await supabase
+      .from("shared_notes")
+      .select("*")
+      .eq("shared_with_email", customRequest.user.email)
+      .eq("note_id", id);
+
+    if (noteSharedError) {
+      res.status(500).json({
+        status: "Error",
+        message: "Internal server error",
+      });
+      return;
+    }
+
+    if (noteShared.length === 0) {
+      res.status(404).json({
+        status: "Error",
+        message: "Note not found",
+      });
+      return;
+    }
+
+    if (noteShared[0].permision_level !== "edit") {
+      res.status(400).json({
+        status: "Error",
+        message: "You don't have permission to edit this note",
+      });
+      return;
+    }
+
+    const { data: note, error: noteError } = await supabase
+      .from("notes")
+      .select("*")
+      .eq("id", id);
+
+    if (noteError) {
+      res.status(500).json({
+        status: "Error",
+        message: "Internal server error",
+      });
+      return;
+    }
+
+    if (note.length === 0) {
+      res.status(404).json({
+        status: "Error",
+        message: "Note not found",
+      });
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from("notes")
+      .update({
+        title: title || note[0].title,
+        content: content || note[0].content,
+        updated_at: new Date(),
+      })
+      .eq("id", id)
+      .select("title, content");
+
+    if (error) {
+      res.status(500).json({
+        status: "Error",
+        message: "Internal server error",
+      });
+      return;
+    }
+
+    res.json({
+      status: "Success",
+      message: "Data updated successfully",
+      data: data[0],
+    });
+    return;
+  }
+
+  if (notes?.length === 0) {
+    res.status(404).json({
+      status: "Error",
+      message: "Note not found",
     });
     return;
   }

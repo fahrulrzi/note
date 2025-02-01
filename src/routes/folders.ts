@@ -129,11 +129,13 @@ router.put("/:id", async (req: Request, res: Response) => {
 router.delete("/:id", async (req: Request, res: Response) => {
   const customRequest = req as CustomRequest;
 
+  const { id } = req.params; 
+
   try {
     const { data, error } = await supabase
       .from("folders")
       .delete()
-      .eq("id", req.params.id)
+      .eq("id", id)
       .eq("user_id", customRequest.user.id)
       .select();
 
@@ -148,7 +150,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
     const { data: notesData, error: notesError } = await supabase
       .from("notes")
       .delete()
-      .eq("folder_id", req.params.id)
+      .eq("folder_id", id)
       .eq("user_id", customRequest.user.id)
       .select();
 
