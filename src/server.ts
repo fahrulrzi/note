@@ -21,7 +21,13 @@ app.use(
   cors({
     origin: "*", // Batasi ke domain tertentu jika memungkinkan
     methods: "GET,POST,PUT,DELETE",
-    allowedHeaders: "Content-Type,Authorization",
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "X-Requested-With",
+      "Accept",
+      "Origin",
+    ],
   })
 );
 
