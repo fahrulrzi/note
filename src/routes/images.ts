@@ -11,6 +11,28 @@ router.post("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
+    const { data: noteData, error: noteError } = await supabase
+      .from("notes")
+      .select("id")
+      .eq("id", id)
+      .eq("user_id", customRequest.user.id);
+
+    if (noteError) {
+      res.status(500).json({
+        status: "error",
+        message: `Internal server error ${noteError.message}`,
+      });
+      return;
+    }
+
+    if (noteData.length === 0) {
+      res.status(404).json({
+        status: "error",
+        message: "Note not found.",
+      });
+      return;
+    }
+
     if (!req.files || !req.files.image) {
       res.status(400).json({
         status: "error",
@@ -37,7 +59,7 @@ router.post("/:id", async (req: Request, res: Response) => {
       return;
     }
 
-    const upImage = await uploadImage(image, parseInt(id));
+    const upImage = await uploadImage(image);
 
     res.json({
       status: "success",

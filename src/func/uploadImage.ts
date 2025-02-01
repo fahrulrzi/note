@@ -2,7 +2,7 @@ import { UploadedFile } from "express-fileupload";
 import { supabase } from "../service/supabase";
 import { v4 as uuidv4 } from "uuid";
 
-async function uploadImage(imageFile: UploadedFile, noteId: Number) {
+async function uploadImage(imageFile: UploadedFile) {
   try {
     const fileName = `${uuidv4()}_${imageFile.name}`;
     const sanitizedFileName = fileName.replace(/[{}<>^%$&*#@!]/g, "");
