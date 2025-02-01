@@ -92,33 +92,55 @@ router.get("/:id", async (req: Request, res: Response) => {
 
   const { id } = req.params;
 
-  const { data, error } = await supabase
-    .from("tags")
-    .select("id, name")
-    .eq("user_id", customRequest.user.id)
-    .eq("id", id);
+  // const { data, error } = await supabase
+  //   .from("tags")
+  //   .select("id, name")
+  //   .eq("user_id", customRequest.user.id)
+  //   .eq("id", id);
 
-  if (error) {
+  const { data: noteTagsData, error: errorNoteTagsData } = await supabase
+    .from("notes")
+    .select("*")
+    .eq("tag_id", id);
+
+  if (errorNoteTagsData) {
     res.status(500).json({
       status: "Error",
-      message: "Internal server error",
+      message: `Internal server error: ${errorNoteTagsData.message}`,
     });
     return;
   }
 
-  if (data.length === 0) {
+  if (noteTagsData.length === 0) {
     res.json({
       status: "Success",
       message: "Data not found",
       data: [],
     });
-  } else {
-    res.json({
-      status: "Success",
-      message: "Data fetched successfully",
-      data: data[0],
-    });
+    return;
   }
+
+  const { data: notesData, error: errorNotesData } = await supabase
+    .from("notes")
+    .select(
+      `id, title, content, is_pinned, tags:note_tags(tags(id,name)),created_at, updated_at`
+    )
+    .eq("id", noteTagsData[0].note_id)
+    .eq("user_id", customRequest.user.id);
+
+  if (errorNotesData) {
+    res.status(500).json({
+      status: "Error",
+      message: `Internal server error: ${errorNotesData.message}`,
+    });
+    return;
+  }
+
+  res.json({
+    status: "Success",
+    message: "Data fetched successfully",
+    data: notesData,
+  });
 });
 
 // router.get("/:name", async (req: Request, res: Response) => {

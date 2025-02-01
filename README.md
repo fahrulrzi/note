@@ -32,6 +32,7 @@
   - [Create Tag](#b-create-tag)
   - [Update Tag](#c-update-tag)
   - [Delete Tag](#d-delete-tag)
+  - [Get All Notes By Tag](#e-get-all-notes-by-tag)
 - [Upload-Image](#5-upload-image)
   - [Post Image](#a-post-image)
   - [Delete Image](#b-delete-image)
@@ -861,6 +862,8 @@
       "message": "Unauthorized"
     }
     ```
+
+#### e. **Get All Notes By Tag**
 
 ### 5. **Upload Image**
 
