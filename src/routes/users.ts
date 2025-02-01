@@ -57,7 +57,7 @@ router.get("/:email", async (req: Request, res: Response) => {
     const { data, error } = await supabase
       .from("users")
       .select("id, name, email")
-      .eq("email", email);
+      .ilike("email", `%${email}%`);
 
     if (error) {
       res.status(500).json({
