@@ -37,6 +37,13 @@
   - [Delete Image](#b-delete-image)
 - [User](#6-user)
   - [Get User by Name](#a-get-user-by-name)
+- [Folders](#7-folders)
+  - [Create Folder](#a-create-folder)
+  - [Get All Folders](#b-get-all-folders)
+  - [Update Folder](#c-update-folder)
+  - [Delete Folder](#d-delete-folder)
+  - [Get All Notes By Folder](#e-get-all-notes-by-folder)
+  - [Sorting Folder](#f-sorting-folder)
 
 ### 1. **Auth**
 
