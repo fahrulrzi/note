@@ -28,6 +28,8 @@ app.use(
       "Accept",
       "Origin",
     ],
+    credentials: true,
+    optionsSuccessStatus: 200,
   })
 );
 
