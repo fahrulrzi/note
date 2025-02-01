@@ -19,7 +19,7 @@ router.post("/:id", async (req: Request, res: Response) => {
 
     if (noteError) {
       res.status(500).json({
-        status: "error",
+        success: 0,
         message: `Internal server error ${noteError.message}`,
       });
       return;
@@ -27,7 +27,7 @@ router.post("/:id", async (req: Request, res: Response) => {
 
     if (noteData.length === 0) {
       res.status(404).json({
-        status: "error",
+        success: 0,
         message: "Note not found.",
       });
       return;
@@ -35,7 +35,7 @@ router.post("/:id", async (req: Request, res: Response) => {
 
     if (!req.files || !req.files.image) {
       res.status(400).json({
-        status: "error",
+        success: 0,
         message: "No image file uploaded.",
       });
       return;
@@ -43,7 +43,7 @@ router.post("/:id", async (req: Request, res: Response) => {
 
     if (Array.isArray(req.files.image)) {
       res.status(400).json({
-        status: "error",
+        success: 0,
         message: "Multiple files upload is not supported.",
       });
       return;
@@ -53,7 +53,7 @@ router.post("/:id", async (req: Request, res: Response) => {
 
     if (!image.mimetype.startsWith("image")) {
       res.status(400).json({
-        status: "error",
+        success: 0,
         message: "File uploaded is not an image.",
       });
       return;
@@ -62,14 +62,14 @@ router.post("/:id", async (req: Request, res: Response) => {
     const upImage = await uploadImage(image);
 
     res.json({
-      status: "success",
+      success: 1,
       message: "Image uploaded successfully",
       file: { url: upImage },
     });
   } catch (error) {
     console.error("Error uploading image: ", error);
     res.status(500).json({
-      status: "error",
+      success: 0,
       message: `Internal server error ${error}`,
     });
     return;
@@ -88,14 +88,14 @@ router.delete("/:id", async (req: Request, res: Response) => {
 
   if (error) {
     res.status(500).json({
-      status: "error",
+      success: 0,
       message: `Internal server error ${error.message}`,
     });
     return;
   }
 
   res.json({
-    status: "success",
+    success: 1,
     message: "Image deleted successfully",
   });
 });
