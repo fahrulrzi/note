@@ -68,14 +68,14 @@
   - **400 Bad Request**
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Email already exists"
     }
     ```
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
@@ -107,14 +107,14 @@
   - **401 Unauthorized**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Invalid email or password"
     }
     ```
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
@@ -138,7 +138,7 @@
   - **201 Created**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Data posted successfully",
       "data": {
         "id": 14,
@@ -157,7 +157,7 @@
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
@@ -170,7 +170,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Data fetched successfully",
       "folders": [
         // untuk note dengan folder
@@ -244,7 +244,7 @@
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
@@ -257,7 +257,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Data fetched successfully",
       "data": {
         "id": 4,
@@ -289,7 +289,7 @@
   - **404 Not Found**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Note not found"
     }
     ```
@@ -320,7 +320,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Note updated successfully",
       "data": {
         "id": 4,
@@ -338,14 +338,14 @@
   - **404 Not Found**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Note not found"
     }
     ```
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
@@ -358,7 +358,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Data deleted successfully",
       "data": {
         "id": 1,
@@ -375,14 +375,14 @@
   - **404 Not Found**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Note not found"
     }
     ```
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
@@ -395,7 +395,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Data fetched successfully",
       "data": [
         {
@@ -420,7 +420,7 @@
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
@@ -433,7 +433,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Data fetched successfully",
       "data": [
         {
@@ -458,7 +458,7 @@
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
@@ -471,7 +471,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Data fetched successfully",
       "data": [
         {
@@ -494,7 +494,7 @@
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
@@ -510,7 +510,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Data fetched successfully",
       "data": [
         {
@@ -535,14 +535,14 @@
   - **404 Not Found**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Note not found"
     }
     ```
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
@@ -557,7 +557,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Data fetched successfully",
       "data": [
         {
@@ -584,14 +584,14 @@
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
   - **401 Unauthorized**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Unauthorized"
     }
     ```
@@ -610,7 +610,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Data shared successfully",
       "data": {
         "permision_level": "view",
@@ -630,14 +630,14 @@
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
   - **401 Unauthorized**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Unauthorized"
     }
     ```
@@ -657,7 +657,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Data updated successfully",
       "data": {
         "title": "Note Title",
@@ -668,21 +668,21 @@
   - **400 Bad Request**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "You don't have permission to edit this note"
     }
     ```
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
   - **401 Unauthorized**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Unauthorized"
     }
     ```
@@ -695,7 +695,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Data deleted successfully",
       "data": {
         "id": 6,
@@ -710,14 +710,14 @@
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
   - **401 Unauthorized**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Unauthorized"
     }
     ```
@@ -732,7 +732,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Data fetched successfully",
       "data": [
         {
@@ -745,7 +745,7 @@
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
@@ -764,7 +764,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Data created successfully",
       "data": {
         "id": 1,
@@ -775,14 +775,14 @@
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
   - **401 Unauthorized**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Unauthorized"
     }
     ```
@@ -801,7 +801,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Data updated successfully",
       "data": {
         "id": 1,
@@ -812,14 +812,14 @@
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
   - **401 Unauthorized**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Unauthorized"
     }
     ```
@@ -832,7 +832,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Data deleted successfully",
       "data": {
         "id": 1,
@@ -843,14 +843,14 @@
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal Server Error"
     }
     ```
   - **401 Unauthorized**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Unauthorized"
     }
     ```
@@ -871,7 +871,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Image uploaded successfully",
       "data": {
         "publicUrl": "https://tszgokpzvjfncgdngqhx.supabase.co/storage/v1/object/public/image_note/2b401a63-8749-42f7-862a-52c205ab0c3c_362853BF-A855-4223-BB4B-1A39C82FF6A5.png"
@@ -881,7 +881,7 @@
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal server error [object Object]"
     }
     ```
@@ -900,7 +900,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Image uploaded successfully",
       "data": {
         "publicUrl": "https://tszgokpzvjfncgdngqhx.supabase.co/storage/v1/object/public/image_note/2b401a63-8749-42f7-862a-52c205ab0c3c_362853BF-A855-4223-BB4B-1A39C82FF6A5.png"
@@ -910,7 +910,7 @@
   - **500 Internal Server Error**:
     ```json
     {
-      "status": "error",
+      "status": "Error",
       "message": "Internal server error [object Object]"
     }
     ```
@@ -925,7 +925,7 @@
   - **200 OK**:
     ```json
     {
-      "status": "success",
+      "status": "Success",
       "message": "Data fetched successfully",
       "data": {
         "id": 1,
@@ -937,7 +937,208 @@
     - **500 Internal Server Error**:
       ```json
       {
-        "status": "error",
+        "status": "Error",
         "message": "Internal Server Error"
       }
       ```
+
+### 7. **Folders**
+
+#### a. **Create Folder**
+
+- **URL**: `/api/folders`
+- **Method**: `POST`
+- **Request Body**:
+  ```json
+  {
+    "name": "Example Folder",
+    "is_pinned": false // default false
+  }
+  ```
+- **Response**:
+  - **201 Created**:
+    ```json
+    {
+      "status": "Success",
+      "message": "Data posted successfully",
+      "data": {
+        "id": 1,
+        "name": "Example Folder",
+        "is_pinned": false,
+        "created_at": "2025-01-30T11:22:43.084686+00:00",
+        "updated_at": "2025-01-30T11:22:43.084686+00:00"
+      }
+    }
+    ```
+  - **500 Internal Server Error**:
+    ```json
+    {
+      "status": "Error",
+      "message": "Internal Server Error"
+    }
+    ```
+
+#### b. **Get All Folders**
+
+- **URL**: `/api/folders`
+- **Method**: `GET`
+- **Response**:
+  - **200 OK**:
+    ```json
+    {
+      "status": "Success",
+      "message": "Data fetched successfully",
+      "data": [
+        {
+          "id": 1,
+          "name": "Example Folder",
+          "is_pinned": false,
+          "created_at": "2025-01-30T11:22:43.084686+00:00",
+          "updated_at": "2025-01-30T11:22:43.084686+00:00"
+        }
+      ]
+    }
+    ```
+  - **500 Internal Server Error**:
+    ```json
+    {
+      "status": "Error",
+      "message": "Internal Server Error"
+    }
+    ```
+
+#### c. **Update Folder**
+
+- **URL**: `/api/folders/:id`
+- **Method**: `PUT`
+- **Request Body**:
+  ```json
+  {
+    "name": "Updated Folder",
+    "is_pinned": true
+  }
+  ```
+- **Response**:
+  - **200 OK**:
+    ```json
+    {
+      "status": "Success",
+      "message": "Data updated successfully",
+      "data": {
+        "id": 1,
+        "name": "Updated Folder",
+        "is_pinned": true,
+        "created_at": "2025-01-30T11:22:43.084686+00:00",
+        "updated_at": "2025-01-30T11:22:43.084686+00:00"
+      }
+    }
+    ```
+  - **500 Internal Server Error**:
+    ```json
+    {
+      "status": "Error",
+      "message": "Internal Server Error"
+    }
+    ```
+
+#### d. **Delete Folder**
+
+## ❗ `Kasih peringatan jika folder yang dihapus memiliki note di dalamnya dan jika folder dihapus, semua note didalamnya akan dihapus juga`
+
+- **URL**: `/api/folders/:id`
+- **Method**: `DELETE`
+- **Response**:
+  - **200 OK**:
+    ```json
+    {
+      "status": "Success",
+      "message": "Data deleted successfully",
+      "data": {
+        "id": 1,
+        "name": "Updated Folder",
+        "is_pinned": true,
+        "created_at": "2025-01-30T11:22:43.084686+00:00",
+        "updated_at": "2025-01-30T11:22:43.084686+00:00"
+      }
+    }
+    ```
+  - **500 Internal Server Error**:
+    ```json
+    {
+      "status": "Error",
+      "message": "Internal Server Error"
+    }
+    ```
+
+#### e. **Get All Notes By Folder**
+
+- **URL**: `/api/folders/:id/notes`
+- **Method**: `GET`
+- **Response**:
+  - **200 OK**:
+    ```json
+    {
+      "status": "Success",
+      "message": "Data fetched successfully",
+      "data": [
+        {
+          "id": 1,
+          "title": "note 1",
+          "content": { "lorem ipsum": "content" },
+          "is_pinned": false,
+          "created_at": "2025-01-24T06:05:26.789807+00:00",
+          "updated_at": "2025-01-24T06:05:26.789807+00:00"
+        },
+        {
+          "id": 2,
+          "title": "note 2",
+          "content": { "lorem ipsum": "content" },
+          "is_pinned": false,
+          "created_at": "2025-01-23T23:19:21.666202+00:00",
+          "updated_at": "2025-01-24T06:05:26.789807+00:00"
+        }
+      ]
+    }
+    ```
+  - **500 Internal Server Error**:
+    ```json
+    {
+      "status": "Error",
+      "message": "Internal Server Error"
+    }
+    ```
+
+#### f. **Sorting Folder**
+
+- **Key Value**:
+
+  - `name`: sort by name
+  - `sort-by-update`: sort by updated date
+  - `pinned`: sort by pinned folder
+
+- **URL**: `/api/folders/sorting`
+- **Method**: `GET`
+- **Response**:
+  - **200 OK**:
+    ```json
+    {
+      "status": "Success",
+      "message": "Data fetched successfully",
+      "data": [
+        {
+          "id": 1,
+          "name": "Example Folder",
+          "is_pinned": false,
+          "created_at": "2025-01-30T11:22:43.084686+00:00",
+          "updated_at": "2025-01-30T11:22:43.084686+00:00"
+        }
+      ]
+    }
+    ```
+  - **500 Internal Server Error**:
+    ```json
+    {
+      "status": "Error",
+      "message": "Internal Server Error"
+    }
+    ```

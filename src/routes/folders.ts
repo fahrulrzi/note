@@ -172,7 +172,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
   }
 });
 
-router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
+router.get("/:id/notes", async (req: Request, res: Response, next: NextFunction) => {
   const customRequest = req as CustomRequest;
 
   const { id } = req.params;
