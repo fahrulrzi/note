@@ -74,7 +74,7 @@ router.get("/", async (req: Request, res: Response) => {
     if (error) throw error;
 
     res.json({
-      status: "success",
+      status: "Success",
       message: "Data fetched successfully",
       data,
     });
@@ -115,14 +115,14 @@ router.get("/", async (req: Request, res: Response) => {
     //   if (notesError) throw notesError;
 
     //   res.json({
-    //     status: "success",
+    //     status: "Success",
     //     message: "Data fetched successfully",
     //     folders,
     //     standalone_notes: standaloneNotes,
     //   });
   } catch (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: "Internal server error",
     });
   }
@@ -155,7 +155,7 @@ router.get(
 
     if (error) {
       res.status(500).json({
-        status: "error",
+        status: "Error",
         message: `Internal server error: ${error.message}`,
       });
       return;
@@ -163,12 +163,12 @@ router.get(
 
     if (data.length === 0) {
       res.status(404).json({
-        status: "error",
+        status: "Error",
         message: "Note not found",
       });
     } else {
       res.json({
-        status: "success",
+        status: "Success",
         message: "Data fetched successfully",
         data: data[0],
       });
@@ -196,20 +196,20 @@ router.post("/", async (req: Request, res: Response) => {
 
     if (error) {
       res.status(500).json({
-        status: "error",
+        status: "Error",
         message: `Internal server error: ${error.message}`,
       });
       return;
     }
 
     res.json({
-      status: "success",
+      status: "Success",
       message: "Data posted successfully",
       data: data[0],
     });
   } catch (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: "Internal server error",
     });
   }
@@ -229,7 +229,7 @@ router.put("/:id", async (req: Request, res: Response) => {
 
   if (notes?.length === 0) {
     res.status(404).json({
-      status: "error",
+      status: "Error",
       message: "Note not found",
     });
     return;
@@ -237,7 +237,7 @@ router.put("/:id", async (req: Request, res: Response) => {
 
   if (notesError) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: "Internal server error",
     });
     return;
@@ -258,14 +258,14 @@ router.put("/:id", async (req: Request, res: Response) => {
 
   if (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: "Internal server error",
     });
     return;
   }
 
   res.json({
-    status: "success",
+    status: "Success",
     message: "Data updated successfully",
     data: data[0],
   });
@@ -284,7 +284,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
 
   if (notes?.length === 0) {
     res.status(404).json({
-      status: "error",
+      status: "Error",
       message: "Note not found",
     });
     return;
@@ -292,7 +292,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
 
   if (notesError) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: "Internal server error",
     });
     return;
@@ -307,14 +307,14 @@ router.delete("/:id", async (req: Request, res: Response) => {
 
   if (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: "Internal server error",
     });
     return;
   }
 
   res.json({
-    status: "success",
+    status: "Success",
     message: "Data deleted successfully",
     data: data[0],
   });
@@ -333,14 +333,14 @@ router.get("/search/:title", async (req: Request, res: Response) => {
 
   if (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: `Internal server error: ${error.message}`,
     });
     return;
   }
 
   res.json({
-    status: "success",
+    status: "Success",
     message: "Data fetched successfully",
     data: data,
   });
@@ -363,14 +363,14 @@ router.get(
 
       if (error) {
         res.status(500).json({
-          status: "error",
+          status: "Error",
           message: `Internal server error: ${error.message}`,
         });
         return;
       }
 
       res.json({
-        status: "success",
+        status: "Success",
         message: "Data fetched successfully",
         data: data,
       });
@@ -383,14 +383,14 @@ router.get(
 
       if (error) {
         res.status(500).json({
-          status: "error",
+          status: "Error",
           message: `Internal server error: ${error.message}`,
         });
         return;
       }
 
       res.json({
-        status: "success",
+        status: "Success",
         message: "Data fetched successfully",
         data: data,
       });
@@ -411,14 +411,14 @@ router.get(
 
 //   if (error) {
 //     res.status(500).json({
-//       status: "error",
+//       status: "Error",
 //       message: `Internal server error: ${error.message}`,
 //     });
 //     return;
 //   }
 
 //   res.json({
-//     status: "success",
+//     status: "Success",
 //     message: "Data fetched successfully",
 //     data: data,
 //   });
@@ -435,14 +435,14 @@ router.get(
 
 //   if (error) {
 //     res.status(500).json({
-//       status: "error",
+//       status: "Error",
 //       message: `Internal server error: ${error.message}`,
 //     });
 //     return;
 //   }
 
 //   res.json({
-//     status: "success",
+//     status: "Success",
 //     message: "Data fetched successfully",
 //     data: data,
 //   });
@@ -459,14 +459,14 @@ router.get("/pinned", async (req: Request, res: Response) => {
 
   if (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: `Internal server error: ${error.message}`,
     });
     return;
   }
 
   res.json({
-    status: "success",
+    status: "Success",
     message: "Data fetched successfully",
     data: data,
   });
@@ -501,7 +501,7 @@ router.post(
 
     if (error) {
       res.status(500).json({
-        status: "error",
+        status: "Error",
         message: "Internal server error",
       });
 
@@ -509,7 +509,7 @@ router.post(
     }
 
     res.json({
-      status: "success",
+      status: "Success",
       message: "Data shared successfully",
       data: data[0],
     });
@@ -533,14 +533,14 @@ router.get("/shared", async (req: Request, res: Response) => {
 
   if (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: error.message,
     });
     return;
   }
 
   res.json({
-    status: "success",
+    status: "Success",
     message: "Data fetched successfully",
     data: data,
   });
@@ -559,7 +559,7 @@ router.put("/share/:id", async (req: Request, res: Response) => {
 
   if (notesError) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: "Internal server error",
     });
     return;
@@ -567,7 +567,7 @@ router.put("/share/:id", async (req: Request, res: Response) => {
 
   if (notes[0].permision_level !== "edit") {
     res.status(400).json({
-      status: "error",
+      status: "Error",
       message: "You don't have permission to edit this note",
     });
     return;
@@ -575,7 +575,7 @@ router.put("/share/:id", async (req: Request, res: Response) => {
 
   if (customRequest.user.email !== notes[0].shared_with_email) {
     res.status(400).json({
-      status: "error",
+      status: "Error",
       message: "Not share with you",
     });
     return;
@@ -589,7 +589,7 @@ router.put("/share/:id", async (req: Request, res: Response) => {
 
   if (noteError) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: "Internal server error",
     });
     return;
@@ -597,7 +597,7 @@ router.put("/share/:id", async (req: Request, res: Response) => {
 
   if (note.length === 0) {
     res.status(400).json({
-      status: "error",
+      status: "Error",
       message: "Note not found",
     });
     return;
@@ -616,14 +616,14 @@ router.put("/share/:id", async (req: Request, res: Response) => {
 
   if (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: "Internal server error",
     });
     return;
   }
 
   res.json({
-    status: "success",
+    status: "Success",
     message: "Data updated successfully",
     data: data[0],
   });
@@ -646,14 +646,14 @@ router.delete(
 
     if (error) {
       res.status(500).json({
-        status: "error",
+        status: "Error",
         message: "Internal server error",
       });
       return;
     }
 
     res.json({
-      status: "success",
+      status: "Success",
       message: "Data deleted successfully",
       data: data[0],
     });

@@ -14,7 +14,7 @@ router.get("/", async (req: Request, res: Response) => {
 
   if (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: "Internal server error",
     });
     return;
@@ -22,14 +22,14 @@ router.get("/", async (req: Request, res: Response) => {
 
   if (data.length === 0) {
     res.json({
-      status: "success",
+      status: "Success",
       message: "Data not found",
       data: [],
     });
   }
 
   res.json({
-    status: "success",
+    status: "Success",
     message: "Data fetched successfully",
     data: data,
   });
@@ -48,7 +48,7 @@ router.post("/", async (req: Request, res: Response) => {
 
   if (tagError) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: "Internal server error",
     });
 
@@ -57,7 +57,7 @@ router.post("/", async (req: Request, res: Response) => {
 
   if (tag.length > 0) {
     res.status(400).json({
-      status: "error",
+      status: "Error",
       message: "Tag already exists",
     });
 
@@ -74,14 +74,14 @@ router.post("/", async (req: Request, res: Response) => {
 
   if (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: "Internal server error",
     });
     return;
   }
 
   res.json({
-    status: "success",
+    status: "Success",
     message: "Data posted successfully",
     data: data[0],
   });
@@ -100,7 +100,7 @@ router.get("/:id", async (req: Request, res: Response) => {
 
   if (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: "Internal server error",
     });
     return;
@@ -108,13 +108,13 @@ router.get("/:id", async (req: Request, res: Response) => {
 
   if (data.length === 0) {
     res.json({
-      status: "success",
+      status: "Success",
       message: "Data not found",
       data: [],
     });
   } else {
     res.json({
-      status: "success",
+      status: "Success",
       message: "Data fetched successfully",
       data: data[0],
     });
@@ -134,7 +134,7 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 //   if (error) {
 //     res.status(500).json({
-//       status: "error",
+//       status: "Error",
 //       message: "Internal server error",
 //     });
 //     return;
@@ -142,7 +142,7 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 //   if (data.length === 0) {
 //     res.json({
-//       status: "success",
+//       status: "Success",
 //       message: "Data not found",
 //       data: [],
 //     });
@@ -151,7 +151,7 @@ router.get("/:id", async (req: Request, res: Response) => {
 //   }
 
 //   res.json({
-//     status: "success",
+//     status: "Success",
 //     message: "Data fetched successfully",
 //     data: data[0],
 //   });
@@ -172,14 +172,14 @@ router.put("/:id", async (req: Request, res: Response) => {
 
   if (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: "Internal server error",
     });
     return;
   }
 
   res.json({
-    status: "success",
+    status: "Success",
     message: "Data updated successfully",
     data: data[0],
   });
@@ -199,14 +199,14 @@ router.delete("/:id", async (req: Request, res: Response) => {
 
   if (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: "Internal server error",
     });
     return;
   }
 
   res.json({
-    status: "success",
+    status: "Success",
     message: "Data deleted successfully",
     data: data[0],
   });

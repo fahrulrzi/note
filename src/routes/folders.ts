@@ -28,7 +28,7 @@ router.get("/", async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: `Internal server error ${error}`,
     });
   }
@@ -64,7 +64,7 @@ router.post("/", async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: `Internal server error ${error}`,
     });
   }
@@ -73,12 +73,34 @@ router.post("/", async (req: Request, res: Response) => {
 router.put("/:id", async (req: Request, res: Response) => {
   const customRequest = req as CustomRequest;
 
-  const { name } = req.body;
+  const { name, is_pinned } = req.body;
 
   try {
+    const { data: folderData, error: folderError } = await supabase
+      .from("folders")
+      .select("*")
+      .eq("id", req.params.id)
+      .eq("user_id", customRequest.user.id);
+
+    if (folderError) {
+      res.status(500).json({
+        status: "Error",
+        message: `Internal server error: ${folderError.message}`,
+      });
+      return;
+    }
+
+    if (folderData.length === 0) {
+      res.status(404).json({
+        status: "Error",
+        message: `Folder not found`,
+      });
+      return;
+    }
+
     const { data, error } = await supabase
       .from("folders")
-      .update({ name: name })
+      .update({ name: name, is_pinned: is_pinned || folderData[0].is_pinned })
       .eq("id", req.params.id)
       .eq("user_id", customRequest.user.id)
       .select();
@@ -98,7 +120,7 @@ router.put("/:id", async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: `Internal server error ${error}`,
     });
   }
@@ -144,7 +166,7 @@ router.delete("/:id", async (req: Request, res: Response) => {
     });
   } catch (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: `Internal server error ${error}`,
     });
   }
@@ -181,7 +203,7 @@ router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     });
   } catch (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: `Internal server error ${error}`,
     });
   }
@@ -260,7 +282,7 @@ router.get("/:sorting", async (req: Request, res: Response) => {
     }
   } catch (error) {
     res.status(500).json({
-      status: "error",
+      status: "Error",
       message: `Internal server error ${error}`,
     });
   }
